@@ -30,7 +30,7 @@ float get_input(std::string title)
   // Validate input range
   while (coordinate < 0.0 || coordinate > 100.0) {
     std::cout << "> Invalid input. Provide " << title << " from 0 to 100: ";
-    while(!(std::cin >> coordinate)){
+    while(!(std::cin >> coordinate)) {
       clear_input_buffer();
     }
   }
@@ -40,19 +40,19 @@ float get_input(std::string title)
 
 static std::optional<std::vector<std::byte>> ReadFile(const std::string &path)
 {   
-    std::ifstream is{path, std::ios::binary | std::ios::ate};
-    if( !is )
-        return std::nullopt;
-    
-    auto size = is.tellg();
-    std::vector<std::byte> contents(size);    
-    
-    is.seekg(0);
-    is.read((char*)contents.data(), size);
+  std::ifstream is{path, std::ios::binary | std::ios::ate};
+  if( !is )
+      return std::nullopt;
+  
+  auto size = is.tellg();
+  std::vector<std::byte> contents(size);    
+  
+  is.seekg(0);
+  is.read((char*)contents.data(), size);
 
-    if( contents.empty() )
-        return std::nullopt;
-    return std::move(contents);
+  if( contents.empty() )
+      return std::nullopt;
+  return std::move(contents);
 }
 
 int main(int argc, const char **argv)
@@ -94,12 +94,8 @@ int main(int argc, const char **argv)
     RouteModel model{osm_data};
 
     // Create RoutePlanner object and perform A* search.
-
-    // >> ADDED
     RoutePlanner route_planner{model, start_x, start_y, end_x, end_y};
-    
     route_planner.AStarSearch();
-
     std::cout << "Distance: " << route_planner.GetDistance() << " meters. \n";
 
     // Render results of search.
