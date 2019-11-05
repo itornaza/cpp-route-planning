@@ -10,6 +10,34 @@
 
 using namespace std::experimental;
 
+void clear_input_buffer() 
+{
+  std::cin.clear();
+  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  std::cout << "Invalid input. Provide a decimal number: ";
+}
+
+float get_input(std::string title) 
+{
+  float coordinate;
+  
+  // Validate input type
+  std::cout << "> " << title << ": ";
+  while(!(std::cin >> coordinate)) {
+    clear_input_buffer();
+  }
+
+  // Validate input range
+  while (coordinate < 0.0 || coordinate > 100.0) {
+    std::cout << "> Invalid input. Provide " << title << " from 0 to 100: ";
+    while(!(std::cin >> coordinate)){
+      clear_input_buffer();
+    }
+  }
+
+  return coordinate;
+}
+
 static std::optional<std::vector<std::byte>> ReadFile(const std::string &path)
 {   
     std::ifstream is{path, std::ios::binary | std::ios::ate};
@@ -55,12 +83,21 @@ int main(int argc, const char **argv)
     // TODO 1: Declare floats `start_x`, `start_y`, `end_x`, and `end_y` and get
     // user input for these values using std::cin. Pass the user input to the
     // RoutePlanner object below in place of 10, 10, 90, 90.
+    float start_x, start_y, end_x, end_y;
+    std::cout << "Provide the route coordinates from 0 to 100" << std::endl;
+    start_x = get_input("Start Longitude");
+    start_y = get_input("Start Latitude");
+    end_x = get_input("End Longitude");
+    end_y = get_input("End Latitude");
 
     // Build Model.
     RouteModel model{osm_data};
 
     // Create RoutePlanner object and perform A* search.
-    RoutePlanner route_planner{model, 10, 10, 90, 90};
+
+    // >> ADDED
+    RoutePlanner route_planner{model, start_x, start_y, end_x, end_y};
+    
     route_planner.AStarSearch();
 
     std::cout << "Distance: " << route_planner.GetDistance() << " meters. \n";
