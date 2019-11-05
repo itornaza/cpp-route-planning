@@ -1,6 +1,6 @@
 # Route Planning Project
 
-route planner that plots a path between two points on a map using real map data from the [OpenStreeMap project](https://www.openstreetmap.org) . The project is based on the starter code for the Cpp Route Planning project provided by the Udacity Cpp Nanodegree which can be found [here](https://github.com/udacity/CppND-Route-Planning-Project).
+A route planner that plots a path between two points on a map using real map data from the [OpenStreeMap project](https://www.openstreetmap.org) . The project is based on the starter code for the Cpp Route Planning project provided by the Udacity Cpp Nanodegree which can be found [here](https://github.com/udacity/CppND-Route-Planning-Project).
 
 <img src="map.png" width="600" height="450" />
 
