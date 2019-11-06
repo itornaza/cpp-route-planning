@@ -28,7 +28,7 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node)
         neighbor->parent = current_node;
         neighbor->h_value = this->CalculateHValue(neighbor);
         neighbor->g_value = current_node->g_value + current_node->distance(*neighbor);
-        this->open_list.push_back(neighbor);
+        this->open_list.emplace_back(neighbor);
         neighbor->visited = true;
     }
 }
@@ -58,12 +58,12 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
     std::vector<RouteModel::Node> path_found;
 
     while (current_node->parent != nullptr ) {
-        path_found.push_back(*current_node);
+        path_found.emplace_back(*current_node);
         distance += current_node->distance(*current_node->parent);
         current_node = current_node->parent;
     }
     
-    path_found.push_back(*this->start_node);
+    path_found.emplace_back(*this->start_node);
     std::reverse(path_found.begin(), path_found.end());
     distance *= m_Model.MetricScale(); // Multiply the distance by the scale of the map to get meters.
     return path_found;
@@ -75,7 +75,7 @@ void RoutePlanner::AStarSearch()
     RouteModel::Node *current_node = nullptr;
     current_node = this->start_node;
     current_node->visited = true;
-    this->open_list.push_back(current_node);
+    this->open_list.emplace_back(current_node);
 
     while (this->open_list.size() > 0) {
         current_node = this->NextNode();
